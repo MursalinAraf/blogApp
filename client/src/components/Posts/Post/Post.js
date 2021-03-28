@@ -30,9 +30,10 @@ export default function Post({post, setCurrentId}) {
                 <Typography variant="body2">{moment(post.createdAt).fromNow()}</Typography>
             </div>
             <div className={classes.overlay2}>
-                <Button style={{color:'white'}} size="small" disabled={user.result._id !== post.creator} onClick={() => editPost()}>
+                {user && <Button style={{color:'white'}} size="small" disabled={user.result._id !== post.creator} onClick={() => editPost()}>
                     <EditIcon />
-                </Button>
+                </Button>}
+                
             </div>
             <div className={classes.details}>
                 <Typography variant="body2" color="textSecondary">{post.tags.map(tag => `#${tag} `)}</Typography>
@@ -42,21 +43,22 @@ export default function Post({post, setCurrentId}) {
 
             </CardContent>
             <CardActions className={classes.cardActions}>
-               <Button disabled={user.result._id === post.creator} size="small" color="primary" onClick={() => {dispatch(likePost(post._id))}}>
+                {user && <Button disabled={user.result._id === post.creator} size="small" color="primary" onClick={() => {dispatch(likePost(post._id))}}>
                     <ThumbUpAltIcon fontSize="small" />
                     &nbsp;
                       {post.likes.length}
-                </Button> 
-
-                <Button size="small" color="primary" disabled={user.result._id === post.creator} onClick={() => {dispatch(dislikePost(post._id))}}>
+                </Button>}
+                
+                {user && <Button size="small" color="primary" disabled={user.result._id === post.creator} onClick={() => {dispatch(dislikePost(post._id))}}>
                     {post.dislikes.length}
                     &nbsp; 
                     <ThumbDownIcon fontSize="small" />
-                </Button>
-                <Button size="small" color="secondary" disabled={user.result._id !== post.creator} onClick={() => {dispatch(deletePost(post._id))}}>
+                </Button>}
+                {user &&  <Button size="small" color="secondary" disabled={user.result._id !== post.creator} onClick={() => {dispatch(deletePost(post._id))}}>
                     <DeleteIcon fontSize="small" />
                     Delete
-                </Button>
+                </Button>}
+
             </CardActions>
             <Link to={`/details/${post._id}`}>
             <Button variant="contained" color="primary" size="large" type="button" fullWidth><h5 style={{textDecoration: 'none'}}>Read This Blog</h5></Button>
